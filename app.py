@@ -14,9 +14,9 @@ def hello():
 
 
 #「/login」へアクセスがあった場合に、「login.html」を返す
-@app.route("/top")
+@app.route("/login")
 def login():
-    return render_template("top.html")
+    return render_template("login.html")
 
 
 #おまじない

@@ -1,32 +1,8 @@
 body {
     font-size: 2rem;
     width: 800px;
-    margin: 0 auto;
+    margin: 100vh;
     min-height: 100vh;
-    
-    
-}
-
-header {
-    
-}
-
-main {
 
 }
 
-nav {
-
-}
-
-aside {
-
- }
-
-footer {
-
-}
-
-@media screen and (max-width: 1000px) {
-    
-}
