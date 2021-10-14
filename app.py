@@ -6,18 +6,25 @@ from flask import Flask,render_template
 app = Flask(__name__)
 
 
-#「/」へアクセスがあった場合に、"Hello World"の文字列を返す
+
 
 @app.route("/")
-def hello():
+def layout():
     return render_template("layout.html")
 
 
-#「/login」へアクセスがあった場合に、「login.html」を返す
+
+@app.route("/top")
+def top():
+    return render_template("top.html")
+
+@app.route("/register")
+def register():
+    return render_template("register.html")
+
 @app.route("/login")
 def login():
     return render_template("login.html")
-
 
 #おまじない
 if __name__ == "__main__":
