@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block nav %}
+
+{% endblock %}
+
+{% block main %}
+<div class="mb-3">
+    <h1>ログイン</h1>
+</div>
+<form>
+    
+    <div class="mb-3">
+        <label for="exampleInputUsername" class="form-label">ユーザー名</label>
+        <input type="text" class="form-control" id="exampleInputUsername" name="user_name" placeholder="username">
+    </div>
+
+    <div class="mb-3">
+      <label for="exampleInputPassword" class="form-label">パスワード</label>
+      <input type="password" class="form-control" id="exampleInputPassword" name="password" placeholder="password">
+    </div>
+    <button type="submit" class="btn btn-dark" formaction="./top" name="btn_login">ログイン</button>
+</form>
+{% endblock %}
