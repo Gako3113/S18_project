@@ -10,18 +10,18 @@
 <form>
 
     <div class="mb-3">
-        <label for="exampleInputUsername" class="form-label">ユーザー名</label>
-        <input type="text" class="form-control" id="exampleInputUsername" name="user_name" placeholder="username">
+        <label for="exampleInputUsername" class="form-label">ユーザーID</label>
+        <input type="text" required class="form-control" id="exampleInputUsername" name="user_id" placeholder="user id" formmethod="post">
     </div>
 
     <div class="mb-3">
         <label for="exampleInputPassword" class="form-label">パスワード</label>
-        <input type="password" class="form-control" id="exampleInputPassword" name="password" placeholder="password">
+        <input type="password" required class="form-control" id="exampleInputPassword" name="password" placeholder="password" formmethod="post">
     </div>
-    <button type="submit" class="btn btn-dark" formaction="./login" name="btn_login">ログイン</button>
+    <input class="btn btn-dark mb-3" type="submit" formaction="./travel.html" formmethod="post" value="ログイン">
 </form>
 
 <a href="./register">
-<div class="m-3">会員登録がまだの方はこちら</div></a>
+<div class="m-3">ユーザー登録がまだの方はこちら</div></a>
 
 {% endblock %}

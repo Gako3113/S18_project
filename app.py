@@ -1,7 +1,8 @@
 
 #Flaskとrender_template（HTMLを表示させるための関数）をインポート
-from flask import Flask,render_template
-
+from flask import Flask, render_template, request
+from datetime import datetime
+import os
 #Flaskオブジェクトの生成
 app = Flask(__name__)
 
@@ -10,7 +11,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def layout():
-    return render_template("layout.html")
+    return render_template("layout.html", url="url")
 
 @app.route("/top")
 def top():
@@ -24,8 +25,18 @@ def register():
 def login():
     return render_template("login.html")
 
-@app.route("/travel_register")
+@app.route("/travel_register", methods =['POST', 'GET'])
 def travel_register():
+    if request.method == 'POST':
+        #旅行日を取得
+        trip = request.form['trip_name']
+        #日付を取得
+        start_date = request.form.get('start_date')
+        end_date = request.form.get('end_date')
+        #開始日を取得
+        start = datetime.strptime(start_date, '%Y-%m-%d')
+        #終了日を取得
+        end = datetime.strptime(end_date, '%Y-%m-%d')
     return render_template("travel_register.html")
 
 @app.route("/travel")
