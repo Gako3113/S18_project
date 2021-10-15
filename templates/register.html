@@ -7,7 +7,7 @@
 <div class="mb-3">
     <h1>ユーザー登録</h1>
 </div>
-<form>
+<form action="./register" method="post">
     <div class="mb-3">
       <label for="exampleInputEmail" class="form-label">メールアドレス</label>
       <input type="email" class="form-control" id="exampleInputEmail" name="email" placeholder="example@gmail.com">
@@ -24,6 +24,6 @@
       <input type="checkbox" class="form-check-input" id="exampleCheck">
       <label class="form-check-label" for="exampleCheck">確認しました</label>
     </div>
-    <button type="submit" class="btn btn-dark" formaction="./register" name="btn_register">登録</button>
+    <button type="submit" class="btn btn-dark" name="btn_register">登録</button>
 </form>
 {% endblock %}
