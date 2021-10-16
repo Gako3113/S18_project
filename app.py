@@ -41,7 +41,7 @@ def travel_register():
 
 @app.route("/travel")
 def travel():
-    return render_template("travel.html")
+    return render_template("travel.html", url="url")
 
 @app.route("/payment_register")
 def payment_register():
