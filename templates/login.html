@@ -7,27 +7,23 @@
 <div class="mb-3">
     <h1>ログイン</h1>
 </div>
-<form action="./login" method = "post">
-    
+
+<form>
+
     <div class="mb-3">
         <label for="exampleInputUsername" class="form-label">ユーザーID</label>
-        <input type="text" class="form-control" id="exampleInputUsername" name="user_id" placeholder="ユーザ-ID">
-        <script language="javascript" type="text/javascript">
-            const user_id = document.getElementById('user_id');
-            const button1 = document.getElementById('btn_login');
-        
-            const func1 = () => {
-              if(user_id.value.length == 0) {
-                alert('ユーザーIDを入力してください');
-              } 
-            };
-        </script>
+        <input type="text" required class="form-control" id="exampleInputUsername" name="user_id" placeholder="user id" formmethod="post">
     </div>
 
     <div class="mb-3">
-      <label for="exampleInputPassword" class="form-label">パスワード</label>
-      <input type="password" class="form-control" id="exampleInputPassword" name="password" quitplaceholder="password">
+        <label for="exampleInputPassword" class="form-label">パスワード</label>
+        <input type="password" required class="form-control" id="exampleInputPassword" name="password" placeholder="password" formmethod="post">
     </div>
-    <button type="submit" class="btn btn-dark" name="btn_login" onclick="func1()">ログイン</button>
+    <input class="btn btn-dark mb-3" type="submit" formaction="./travel.html" formmethod="post" value="ログイン">
+
 </form>
+
+<a href="./register">
+<div class="m-3">ユーザー登録がまだの方はこちら</div></a>
+
 {% endblock %}
