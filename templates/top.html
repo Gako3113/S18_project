@@ -1,4 +1,24 @@
 {% extends "layout.html" %}
 {% block main %}
-<h1>これはトップ画面です。</h1>
+<div class="container mb-2 text-center position-static">
+  <h1 class="fs-5 p-3" id ="travel">マネートラベルで旅行に行こう</h1>
+  <a href="./travel_register" class="btn btn-dark" method="post">旅行作成</a>
+  <section class="item ">
+    <h1 class="fs-2 p-3" id="past_travel">過去の旅行</h1>
+  </section>
+</div>
+
+<div class="container m-0 p-0">
+  <div class="row row-3 cols-3">
+    {% for nav in range(12) %}
+    <div class="card" style="width: 8rem;">
+      <div class="card-body">
+        <h5 class="card-title">旅行名</h5>
+        <p class="card-text">場所{{nav}}</p>
+        <a href="./liquidation" class="btn btn-dark">見る</a>
+      </div>
+    </div>
+    {% endfor %}
+ </div>
+</div>
 {% endblock %}

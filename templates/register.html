@@ -9,21 +9,21 @@
 </div>
 <form>
     <div class="mb-3">
-      <label for="exampleInputEmail" class="form-label">メールアドレス</label>
-      <input type="email" class="form-control" id="exampleInputEmail" name="email" placeholder="example@gmail.com">
+        <label for="exampleInputEmail" class="form-label">メールアドレス</label>
+        <input type="email" class="form-control" id="exampleInputEmail" name="email" placeholder="example@email.com">
     </div>
     <div class="mb-3">
-        <label for="exampleInputUsername" class="form-label">ユーザー名</label>
-        <input type="text" class="form-control" id="exampleInputUsername" name="user_name" placeholder="username">
+        <label for="exampleInputUsername" class="form-label">ユーザーID</label>
+        <input type="text" required class="form-control" id="exampleInputUsername" name="user_id" placeholder="user id">
     </div>
     <div class="mb-3">
-      <label for="exampleInputPassword" class="form-label">パスワード</label>
-      <input type="password" class="form-control" id="exampleInputPassword" name="password" placeholder="password">
+        <label for="exampleInputPassword" class="form-label">パスワード</label>
+        <input type="password" required class="form-control" id="exampleInputPassword" name="password" placeholder="password">
     </div>
     <div class="mb-3 form-check">
-      <input type="checkbox" class="form-check-input" id="exampleCheck">
-      <label class="form-check-label" for="exampleCheck">確認しました</label>
+        <input type="checkbox" required class="form-check-input" id="exampleCheck">
+        <label class="form-check-label" for="exampleCheck">確認しました</label>
     </div>
-    <button type="submit" class="btn btn-dark" formaction="./login" name="btn_register">登録</button>
+    <button type="submit" class="btn btn-dark" formaction="./register" name="btn_register">登録</button>
 </form>
 {% endblock %}
