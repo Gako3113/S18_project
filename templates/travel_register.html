@@ -1,0 +1,26 @@
+
+{% extends "layout.html" %}
+{% block main %}
+<form action="/travel_register" method="post">
+    <div class="container">
+        <div class="m-3 p-3 ">
+            <label for="exampleFormControlTextarea1" class="form-label pt-3">旅行名</label>
+            <input class="form-control" type="text" required aria-label="default input example" name="trip_name" formmethod="post">
+
+            <div class="col py-5">
+                <label for="exampleFormControlTextarea1" class="form-label　fs-5">開始日</label>
+                <input class="form-control" type="date" required aria-label="default input example" name="start_date" formmethod="post">
+            </div>
+            <div class="col py-5">
+                <label for="exampleFormControlTextarea1" class="form-label　fs-5">終了日</label>
+                <input class="form-control" type="date" required aria-label="default input example" name="end_date" formmethod="post">
+            </div>
+
+            <div class="py-5">
+                <label for="exampleFormControlTextarea1" class="form-label　fs-5">メンバー招待</label>
+            </div>
+            <input class="btn btn-dark mb-3" type="submit" formaction="./travel_register" value="旅行へ行く">
+        </div>
+    </div>
+</form>
+{% endblock %}
