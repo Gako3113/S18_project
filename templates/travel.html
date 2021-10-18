@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block main %}
+<div class="container position-absolute m-3">
+    <div class="position-relative">
+        <ul>
+            <li class="mb-3"><h1>旅行名<br>{{ trip_name }}</h1> <!-- {{trip_name}} --></li>
+            <li class="mb-3"><h1>ユーザーid <br>{{ user_name }}</h1> <!-- {{user_id}} --></li>
+            <li class="mb-3"><h1>開始日 <br>{{ start_date }}</h1> <!-- {{start_date}} --></li>
+            <li class="mb-3"><h1>終了日 <br>{{ end_date }}</h1> <!-- {{end_date}} --></li>
+            <li class="mb-5"><h1>メンバー <br>{{ user_name }}, b, c</h1></li>
+        </ul>
+        <div class="container mb-3"></div>
+            <div class="row row-3 cols-3">
+                {% for trip_result in trip_results %}
+                <div class="card" style="width: 8rem;">
+                <div class="card-body">
+                    <h5 class="card-title">支払い</h5>
+                    <p class="card-text">{{ trip_result[4] }}</p>
+                    <a href="./travel__details" class="btn btn-dark">見る</a>
+                </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="pie position-relative"><span>60%</span></div>
+    </div>
+</div>
+{% endblock %}
