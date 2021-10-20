@@ -11,7 +11,7 @@ import os
 conn = mysql.connector.connect(
     host='localhost',
     user='root',
-    password='Lonkumo13dondon'
+    password='******'
 )
 
 cur=conn.cursor()
