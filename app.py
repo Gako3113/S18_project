@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from flask import Flask,render_template, flash, redirect, render_template, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.utils import secure_filename
 from flask_session import Session
 from tempfile import mkdtemp
 import mysql.connector
@@ -8,9 +9,9 @@ from datetime import datetime
 import os
 
 conn = mysql.connector.connect(
-    host= 'localhost',
-    user= 'root',
-    password='*****'
+    host='localhost',
+    user='root',
+    password='Lonkumo13dondon'
 )
 
 cur=conn.cursor()
@@ -26,7 +27,8 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-
+UPLOAD_FOLDER = './static/image/'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 @app.route("/")
@@ -37,7 +39,10 @@ def layout():
 def top():
     cur.execute("SELECT * FROM trip WHERE trip_id IN (SELECT trip_id FROM trip_join WHERE user_id = %s)",(session["user_id"],))
     trip_results = cur.fetchall()
-    return render_template("top.html", results=trip_results)
+
+    #cur.execute("SELECT * FROM user WHERE user_id = %s",(session["user_id"],))
+    #user_results = cur.fetchall()
+    return render_template("top.html", trip_results=trip_results)#user_results=user_results[0][3]
 
 @app.route("/register", methods=["POST","GET"])
 def register():
@@ -45,9 +50,19 @@ def register():
         user_id = request.form.get("email")
         user_name = request.form.get("user_name")
         password = generate_password_hash(request.form.get("password"))
+        img_file = request.files['img_file']
 
-        cur.execute("INSERT INTO user (user_id, user_name, password) VALUES (%s,%s,%s);", (user_id, user_name, password))
-        conn.commit()
+        if img_file:
+            filename = secure_filename(img_file.filename)
+            img_url = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            img_file.save(img_url)
+            
+            img_url = img_url.lstrip('.')
+            cur.execute("INSERT INTO user (user_id, user_name, password, avatar_image) VALUES (%s,%s,%s,%s);", (user_id, user_name, password,img_url))
+            conn.commit()
+        else:
+            cur.execute("INSERT INTO user (user_id, user_name, password) VALUES (%s,%s,%s);", (user_id, user_name, password))
+            conn.commit()
         return render_template("login.html")
     else:
         return render_template("register.html")

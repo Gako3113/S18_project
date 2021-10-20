@@ -7,7 +7,7 @@
 <div class="mb-3">
     <h1>ユーザー登録</h1>
 </div>
-<form action="./register" method="post">
+<form action="./register" method="post" enctype="multipart/form-data">
     <div class="mb-3">
         <label for="exampleInputEmail" class="form-label">メールアドレス(ユーザーID)</label>
         <input type="email" required class="form-control" id="exampleInputEmail" name="email" placeholder="example@email.com">
@@ -20,6 +20,10 @@
         <label for="exampleInputPassword" class="form-label">パスワード</label>
         <input type="password" required class="form-control" id="exampleInputPassword" name="password" placeholder="password">
     </div>
+    <dl>
+        <dt>プロフィール画像を選択してください:
+        <dd><input type=file id="img_file" name=img_file>
+    </dl>
     <div class="mb-3 form-check">
         <input type="checkbox" required class="form-check-input" id="exampleCheck">
         <label class="form-check-label" for="exampleCheck">確認しました</label>
