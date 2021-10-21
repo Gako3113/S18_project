@@ -11,7 +11,7 @@ import os
 conn = mysql.connector.connect(
     host='localhost',
     user='root',
-    password='******'
+    password='*****'
 )
 
 cur=conn.cursor()
@@ -37,12 +37,15 @@ def layout():
 
 @app.route("/top")
 def top():
-    cur.execute("SELECT * FROM trip WHERE trip_id IN (SELECT trip_id FROM trip_join WHERE user_id = %s)",(session["user_id"],))
-    trip_results = cur.fetchall()
+    try:
+        cur.execute("SELECT * FROM trip WHERE trip_id IN (SELECT trip_id FROM trip_join WHERE user_id = %s)",(session["user_id"],))
+        trip_results = cur.fetchall()
 
-    #cur.execute("SELECT * FROM user WHERE user_id = %s",(session["user_id"],))
-    #user_results = cur.fetchall()
-    return render_template("top.html", trip_results=trip_results)#user_results=user_results[0][3]
+        #cur.execute("SELECT * FROM user WHERE user_id = %s",(session["user_id"],))
+        #user_results = cur.fetchall()
+        return render_template("top.html", trip_results=trip_results)#user_results=user_results[0][3]
+    except:
+        return render_template("login.html")
 
 @app.route("/register", methods=["POST","GET"])
 def register():
@@ -114,8 +117,6 @@ def travel_register():
         cur.execute("SELECT * FROM trip WHERE trip_name = %s;",(trip_name,))
         trip_results = cur.fetchall()
 
-        #session["trip_id"] = trip_results[0][0]
-
         cur.execute("INSERT INTO trip_join (trip_id, user_id) VALUES (%s,%s);", (trip_results[0][0], session["user_id"]))
         conn.commit()
 
@@ -131,11 +132,16 @@ def travel():
 
     cur.execute("SELECT * FROM trip WHERE trip_name = %s;",(trip_name,))
     trip_results = cur.fetchall()
-    return render_template("travel.html",user_name=user_results[0][1], trip_name=trip_name, start_date=trip_results[0][2], end_date=trip_results[0][3])
+
+    cur.execute("SELECT * FROM payment WHERE trip_id IN (SELECT trip_id FROM trip WHERE trip_name = %s);",(trip_name,))
+    payment_results = cur.fetchall()
+
+    return render_template("travel.html",user_name=user_results[0][1], trip_results=trip_results ,payment_results=payment_results)
 
 @app.route("/payment_register",methods=["POST","GET"])
 def payment_register():
     if request.method == "POST":
+        trip_id = request.form.get("trip_id")
         price = request.form.get("price")
         place = request.form.get("place")
         event_name = request.form.get("event_name")
@@ -146,15 +152,16 @@ def payment_register():
         cur.execute("SELECT * FROM user WHERE user_name = %s;",(user_name,))
         user_results = cur.fetchall()
 
-        #cur.execute("INSERT INTO payment (trip_id, price, place, event_name) VALUES (%s,%s,%s,%s);", (session["trip_id"], price, place, event_name))
-        #conn.commit()
+        cur.execute("INSERT INTO payment (trip_id, price, place, event_name) VALUES (%s,%s,%s,%s);", (trip_id, price, place, event_name))
+        conn.commit()
 
         cur.execute("SELECT * FROM payment WHERE event_name = %s AND place = %s AND price = %s;",(event_name, place, price))
         trip_results = cur.fetchall()
 
-        #cur.execute("INSERT INTO payment_member (payment_id, user_id) VALUES (%s,%s);", (trip_results[0][0], user_results[0][0]))            
-        #conn.commit()
-        return render_template("travel.html",user_name=user_name, trip_results=trip_results) 
+        cur.execute("INSERT INTO payment_member (payment_id, user_id) VALUES (%s,%s);", (trip_results[0][0], user_results[0][0]))            
+        conn.commit()
+        return redirect("/travel")
+        #render_template("travel.html",user_name=user_name, trip_results=trip_results) 
     else:
         return render_template("payment_register.html")
 
@@ -164,6 +171,21 @@ def payment_details():
 
 @app.route("/liquidation")
 def liquidation():
+     cur.execute("SELECT COUNT(*) FROM payment WHERE user_id = %s;",(user_id,))
+     member_count=cur.fetchall()
+    for user_id in trip:
+        cur.execute("SELECT SUM(price) FROM payment WHERE user_id = %s;",(user_id,))
+        pay_total = cur.fetchall()
+        cur.execute("SELECT SUM(price) FROM payment WHERE user_id = %s;",(user_id,))
+        should_pay_total = cur.fetchall()/member_count
+        result = pay_total - should_pay_total
+        if result > 0:
+            #もらえる
+        elif result == 0:
+            #変動なし
+        else:
+            #払う
+
     return render_template("liquidation.html")
 
 if __name__ == "__main__":
