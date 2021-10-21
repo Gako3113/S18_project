@@ -8,6 +8,8 @@ import mysql.connector
 from datetime import datetime
 import os
 
+
+
 conn = mysql.connector.connect(
     host='localhost',
     user='root',
@@ -29,6 +31,10 @@ Session(app)
 
 UPLOAD_FOLDER = './static/image/'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+=======
+
+app = Flask(__name__)
 
 
 @app.route("/")

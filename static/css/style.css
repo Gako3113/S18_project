@@ -20,6 +20,7 @@ height: 20px;
 }
 
 .pie {
+
 position: relative;
 margin-right: auto;
 margin-left: auto;
@@ -30,11 +31,12 @@ border-radius: 50%;
 }
 
 .pie span {
-position: absolute;
-top: 50%;
-right: 50px;
-transform: translateY(-50%);
-color: #fff;
-font-size: 26px;
-font-weight: 700;
+	position: absolute;
+	top: 50%;
+	right: 50px;
+	transform: translateY(-50%);
+	color: #fff;
+	font-size: 26px;
+	font-weight: 700;
 }
+
