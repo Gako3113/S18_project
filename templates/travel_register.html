@@ -2,11 +2,12 @@
 {% block main %}
 <form action="/templates/travel_register" method="post">
     <div class="container">
-        <div class="m-3 p-3 ">
-            <label for="exampleFormControlTextarea1" class="form-label pt-3" id="trip_name">旅行名</label>
-            <input class="form-control" type="text" required aria-label="default input example" formmethod="post">
-
-            <div class="col py-5">
+        <div class="m-3 p-3">
+            <div class="col py-4 mb-5">
+                <label for="exampleFormControlTextarea1" class="form-label fs-5" id="trip_name">旅行名</label>
+                <input class="form-control" type="text" required aria-label="default input example" formmethod="post">
+            </div>
+            <div class="col py-4">
                 <label for="exampleFormControlTextarea1" class="form-label　fs-5">開始日</label>
                 <input class="form-control" type="date" required aria-label="default input example" id="start_date" formmethod="post">
             </div>
@@ -18,7 +19,9 @@
             <div class="py-5">
                 <label for="exampleFormControlTextarea1" class="form-label　fs-5">メンバー招待</label>
             </div>
-            <input class="btn btn-dark mb-3" type="submit" formaction="./travel.html" formmethod="post" value="旅行へ行く">
+            <div class="text-center">
+                <input class="btn btn-dark mb-3 btn-lg" type="submit" formaction="./travel" formmethod="post" value="旅行へ行く">
+            </div>
         </div>
     </div>
 </form>

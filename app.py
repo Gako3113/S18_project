@@ -1,13 +1,14 @@
-
-#Flaskとrender_template（HTMLを表示させるための関数）をインポート
-from flask import Flask, render_template, request
+# -*- coding: utf-8 -*-
+from flask import Flask,render_template, flash, redirect, render_template, request, session
+from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.utils import secure_filename
+from flask_session import Session
+from tempfile import mkdtemp
+import mysql.connector
 from datetime import datetime
 import os
-#Flaskオブジェクトの生成
+
 app = Flask(__name__)
-
-
-
 
 @app.route("/")
 def layout():
@@ -41,7 +42,7 @@ def travel_register():
 
 @app.route("/travel")
 def travel():
-    return render_template("travel.html", url="url")
+    return render_template("travel.html")
 
 @app.route("/payment_register")
 def payment_register():
