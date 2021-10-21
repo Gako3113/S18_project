@@ -10,7 +10,7 @@
   </section>
 </div>
 
-{% for result in results %}
+{% for trip_result in trip_results %}
 <div class="container m-0 p-0">
 
   <div class="row row-3 cols-3">
@@ -24,13 +24,18 @@
     <div class="row row-3 cols-3">
       <div class="card" style="width: 8rem;">
         <div class="card-body">
-          <h5 class="card-title">{{ result[1] }}</h5>
-          <p class="card-text">場所</p>
-          <a href="./liquidation" class="btn btn-dark">見る</a>
+          <h5 class="card-title">{{ trip_result[1] }}</h5>
+          <form action="/travel" method="post">
+            <button class="btn btn-dark"　type="submit" name="trip_name" value="{{ trip_result[1] }}">見る</button>
+          </form>
         </div>
 
       </div>
     </div>
 </div>
 {% endfor %}
+
+<!--<h1>
+  <img src="../..{{ user_results }}">
+</h1> -->
 {% endblock %}
