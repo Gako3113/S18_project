@@ -1,6 +1,14 @@
 # -*- coding: utf-8 -*-
 from flask import Flask,render_template, flash, redirect, render_template, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
+
+from werkzeug.utils import secure_filename
+from flask_session import Session
+from tempfile import mkdtemp
+import mysql.connector
+from datetime import datetime
+import os
+
 from flask_session import Session
 from tempfile import mkdtemp
 import mysql.connector
@@ -31,7 +39,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 
-
+app = Flask(__name__)
 
 @app.route("/")
 def layout():
