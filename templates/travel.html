@@ -1,28 +1,42 @@
 {% extends "layout.html" %}
 {% block main %}
-<div class="container position-absolute m-3">
-    <div class="position-relative">
-        <ul>
-            <li class="mb-3"><h1>旅行名<br>{{ trip_results[0][1] }}</h1> <!-- {{trip_name}} --></li>
-            <li class="mb-3"><h1>ユーザーid <br>{{ user_name }}</h1> <!-- {{user_id}} --></li>
-            <li class="mb-3"><h1>開始日 <br>{{ trip_results[0][2] }}</h1> <!-- {{start_date}} --></li>
-            <li class="mb-3"><h1>終了日 <br>{{ trip_results[0][3] }}</h1> <!-- {{end_date}} --></li>
-            <li class="mb-5"><h1>メンバー <br>{{ user_name }}, b, c</h1></li>
-        </ul>
-        <div class="container mb-3"></div>
-            <div class="row row-3 cols-3">
-                {% for payment_result in payment_results %}
-                <div class="card" style="width: 8rem;">
-                <div class="card-body">
-                    <h5 class="card-title">{{ payment_result[4] }}</h5>
-                    <p class="card-text">{{ payment_result[2] }}円</p>
-                    <a href="./travel_details" class="btn btn-dark">見る</a><!--ボタン追加,支払い画面に行けるようにして、valueとしてtrip_idを送信する-->
-                </div>
-                </div>
-                {% endfor %}
+<div class="container position-static mb-3">
+    <ul class="list-unstyled text-center">
+        <li class="mb-4 pt-3">
+            <h1 class="fs-2"><旅行名><br>{{ trip_results[0][1] }}</h1> 
+        </li>
+        <li class="mb-4 pt-3">
+            <h1 class="fs-2"><開始日><br>{{ trip_results[0][2] }}</h1> 
+        </li>
+        <li class="mb-4 pt-3">
+            <h1 class="fs-2"><終了日><br>{{ trip_results[0][3] }}</h1> 
+        </li>
+        <li class="mb-4 pt-3">
+            <h1 class="fs-2"><旅行のメンバー><br>{% for user_result in user_results %}{{ user_result[1]+" "}}{% endfor %}</h1>
+        </li>
+    </ul>
+    <div class="container mb-3"></div>
+    <div class="row row-3 cols-3">
+        {% for payment_result in payment_results %}
+        <div class="card" style="width: 8rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{ payment_result[4] }}</h5>
+                <p class="card-text">{{ payment_result[2] }}</p><!--ボタン追加,支払い画面に行けるようにして、valueとしてtrip_idを送信する-->
+                <a href="./travel_details" class="btn btn-dark">見る</a>
             </div>
         </div>
-        <div class="pie position-relative"><span>60%</span></div>
+        {% endfor %}
+        <form action="/payment_register" method="post">
+            <button type="submit" class="btn btn-dark rounded-circle p-0" style="width:2rem;height:2rem;" name="trip_id1" value="{{ trip_results[0][0] }}">+</button>
+        </form>
     </div>
+</div>
+<div class="text-center">
+    <h1 class="fs-2"><メンバー清算額比率></h1>
+    <div class="pie my-3">
+        <span>60%</span>
+    </div>
+    <a href="./liquidation" class="btn btn-dark btn-lg">清算</a>
+</div>
 </div>
 {% endblock %}

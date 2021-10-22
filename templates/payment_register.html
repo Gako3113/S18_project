@@ -3,7 +3,9 @@
 <form action="/payment_register" method="post">
     <div class="container">
         <div class="m-3 p-3 ">
-            <label for="exampleFormControlTextarea1" class="form-label pt-3">イベント名</label>
+
+
+            <label for="exampleFormControlTextarea1" class="form-label pt-3">支払いのイベント名</label>
             <input class="form-control" type="text" required aria-label="default input example" name="event_name" formmethod="post">
 
             <div class="col py-5">
@@ -14,14 +16,16 @@
                 <label for="exampleFormControlTextarea1" class="form-label　fs-5">金額</label>
                 <input class="form-control" type="text" required aria-label="default input example" name="price" formmethod="post">
             </div>
-            <div class="col py-5">
-                <label for="exampleFormControlTextarea1" class="form-label　fs-5">支払ったユーザー</label>
+
+            <div class="col py-5 mb-5">
+                <label for="exampleFormControlTextarea1" class="form-label　fs-5">支払ったメンバー</label>
                 <input class="form-control" type="text" required aria-label="default input example" name="user_name" formmethod="post">
             </div>
-            <p></p>
-
-            <input class="btn btn-dark mb-4" type="submit" formaction="./payment_register" value="登録">
-
+            <div class="text-center">
+                <form action="/payment_register" metohd="post">
+                    <button class="btn btn-dark mb-3 btn-lg" type="submit" formaction="./payment_register" name=trip_id value="{{ trip_id }}">支払いを登録する</button><!--ボタン追加,支払い画面に行けるようにして、valueとしてtrip_idを送信する-->
+                </form>
+            </div>
         </div>
     </div>
 </form>

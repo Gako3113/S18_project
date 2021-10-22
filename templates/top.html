@@ -10,9 +10,9 @@
   </section>
 </div>
 
-{% for trip_result in trip_results %}
 <div class="container m-0 p-0">
     <div class="row row-3 cols-3">
+      {% for trip_result in trip_results %}
       <div class="card" style="width: 8rem;">
         <div class="card-body">
           <h5 class="card-title">{{ trip_result[1] }}</h5>
@@ -21,10 +21,11 @@
           </form>
         </div>
       </div>
+      {% endfor %} 
     </div>
 </div>
-{% endfor %}
 
+ </div>
 <!--<h1>
   <img src="../..{{ user_results }}">
 </h1> -->
