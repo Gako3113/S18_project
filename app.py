@@ -144,7 +144,7 @@ def travel():
     cur.execute("SELECT * FROM trip WHERE trip_name = %s;",(trip_name,))
     trip_results = cur.fetchall()
 
-    cur.execute("SELECT * FROM payment WHERE trip_id IN (SELECT trip_id FROM trip WHERE trip_name = %s);",(trip_name,))
+    cur.execute("SELECT * FROM payment JOIN payment_member USING(payment_id) JOIN user USING(user_id) WHERE trip_id IN (SELECT trip_id FROM trip WHERE trip_name = %s);",(trip_name,))
     payment_results = cur.fetchall()
 
     cur.execute("SELECT * FROM user WHERE user_id IN (SELECT user_id FROM trip_join WHERE trip_id IN (SELECT trip_id FROM trip WHERE trip_name = %s))",(trip_name,))
@@ -181,11 +181,12 @@ def payment_register():
         cur.execute("INSERT INTO payment_member (payment_id, user_id) VALUES (%s,%s);", (add_payment_results[len(add_payment_results)-1][0], pay_member_results[0][0]))            
         conn.commit()
 
-        cur.execute("SELECT * FROM payment WHERE trip_id = %s",(trip_id,))
+        cur.execute("SELECT * FROM payment JOIN payment_member USING(payment_id) JOIN user USING(user_id) WHERE trip_id = %s",(trip_id,))
         payment_results = cur.fetchall()
 
         cur.execute("SELECT * FROM user WHERE user_id IN (SELECT user_id FROM trip_join WHERE trip_id = %s)",(trip_id,))
         user_results = cur.fetchall()
+        
         return render_template("travel.html", user_results=user_results, trip_results=trip_results ,payment_results=payment_results)
     else:
         return render_template("payment_register.html")
@@ -198,6 +199,7 @@ def payment_details():
 
     cur.execute("SELECT * FROM user WHERE user_id IN (SELECT user_id FROM payment_member WHERE payment_id = %s)",(payment_id,))
     user_results=cur.fetchall()
+
     return render_template("payment_details.html",payment_results=payment_results, user_name=user_results[0][1])
 
 @app.route("/liquidation",methods=["POST","GET"])
