@@ -1,24 +1,43 @@
 {% extends "layout.html" %}
 {% block main %}
-<form action="/templates/travel_register" method="post">
+<form action="/travel_register" method="post">
     <div class="container">
         <div class="m-3 p-3 ">
-            <label for="exampleFormControlTextarea1" class="form-label pt-3" id="trip_name">旅行名</label>
-            <input class="form-control" type="text" required aria-label="default input example" formmethod="post">
+            <label for="exampleFormControlTextarea1" class="form-label pt-3">旅行名</label>
+            <input class="form-control" type="text" required aria-label="default input example" name="trip_name" formmethod="post">
 
             <div class="col py-5">
+
                 <label for="exampleFormControlTextarea1" class="form-label　fs-5">開始日</label>
-                <input class="form-control" type="date" required aria-label="default input example" id="start_date" formmethod="post">
+                <input class="form-control" type="date" required aria-label="default input example" name="start_date" formmethod="post">
             </div>
             <div class="col py-5">
                 <label for="exampleFormControlTextarea1" class="form-label　fs-5">終了日</label>
-                <input class="form-control" type="date" required aria-label="default input example" id="end_date" formmethod="post">
+                <input class="form-control" type="date" required aria-label="default input example" name="end_date" formmethod="post">
             </div>
 
-            <div class="py-5">
+            	
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+            <script>
+                var count = 1;
+                function add() {
+                  $('#add').append(`<input class="form-control" type="text" required aria-label="default input example" formmethod="post" name="user_id${count}" placeholder="example.com">`);
+                  count++;         
+                };
+            </script> 
+            
+            <div id="add" class="py-5">
                 <label for="exampleFormControlTextarea1" class="form-label　fs-5">メンバー招待</label>
+                <input class="form-control" type="text" required aria-label="default input example" formmethod="post" name="user_id0" placeholder="example.com">
             </div>
-            <input class="btn btn-dark mb-3" type="submit" formaction="./travel.html" formmethod="post" value="旅行へ行く">
+            <button type="button" class="btn btn-dark mb-3 text-right" onclick="add()" formaction="./travel_register" name="btn_register">メンバー追加</button>
+            
+
+
+            <div class="text-center">
+                <input class="btn btn-dark mb-3 btn-lg" type="submit" formaction="./travel_register" formmethod="post" value="旅行へ行く">
+            </div>
+
         </div>
     </div>
 </form>
