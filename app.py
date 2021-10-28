@@ -100,7 +100,7 @@ def logout():
 
 @app.route("/travel_register",methods=["POST","GET"])
 def travel_register():
-    try:
+    #try:
         if request.method == "POST":
             trip_name = request.form.get("trip_name")
             start_date = request.form.get("start_date")
@@ -119,35 +119,36 @@ def travel_register():
             cur.execute("INSERT INTO trip (trip_name, start_date, end_date) VALUES (%s,%s,%s);", (trip_name, start_date, end_date))
             conn.commit()
 
-            cur.execute("SELECT * FROM trip WHERE trip_name = %s;",(trip_name,))
+            cur.execute("SELECT * FROM trip WHERE trip_name = %s AND start_date = %s AND end_date = %s;",(trip_name,start_date, end_date))
             trip_results = cur.fetchall()
 
-            cur.execute("INSERT INTO trip_join (trip_id, user_id) VALUES (%s,%s);", (trip_results[0][0], session["user_id"]))
+            cur.execute("INSERT INTO trip_join (trip_id, user_id) VALUES (%s,%s);", (trip_results[len(trip_results)-1][0], session["user_id"]))
             conn.commit()
 
             for user_id in user_ids:
-                cur.execute("INSERT INTO trip_join (trip_id, user_id) VALUES (%s,%s);", (trip_results[0][0], user_id))
+                cur.execute("INSERT INTO trip_join (trip_id, user_id) VALUES (%s,%s);", (trip_results[len(trip_results)-1][0], user_id))
                 conn.commit()
             
-            cur.execute("SELECT * FROM user WHERE user_id IN (SELECT user_id FROM trip_join WHERE trip_id = %s);",(trip_results[0][0],))
+            cur.execute("SELECT * FROM user WHERE user_id IN (SELECT user_id FROM trip_join WHERE trip_id = %s);",(trip_results[len(trip_results)-1][0],))
             user_results = cur.fetchall()
             
-            return render_template("travel.html",user_results=user_results,trip_results=trip_results)
+            payment_results=[0]
+            return render_template("travel.html",user_results=user_results,trip_results=trip_results,payment_results=payment_results)
         else:
             return render_template("travel_register.html")
-    except:
-        return render_template("login.html")
+    #except:
+        #return render_template("login.html")
 
 @app.route("/travel",methods=["POST","GET"])
 def travel():
-    trip_name = request.form.get("trip_name")
-    cur.execute("SELECT * FROM trip WHERE trip_name = %s;",(trip_name,))
+    trip_id = request.form.get("trip_id")
+    cur.execute("SELECT * FROM trip WHERE trip_id = %s;",(trip_id,))
     trip_results = cur.fetchall()
 
-    cur.execute("SELECT * FROM payment JOIN payment_member USING(payment_id) JOIN user USING(user_id) WHERE trip_id IN (SELECT trip_id FROM trip WHERE trip_name = %s);",(trip_name,))
+    cur.execute("SELECT * FROM payment JOIN payment_member USING(payment_id) JOIN user USING(user_id) WHERE trip_id = %s;",(trip_id,))
     payment_results = cur.fetchall()
 
-    cur.execute("SELECT * FROM user WHERE user_id IN (SELECT user_id FROM trip_join WHERE trip_id IN (SELECT trip_id FROM trip WHERE trip_name = %s))",(trip_name,))
+    cur.execute("SELECT * FROM user WHERE user_id IN (SELECT user_id FROM trip_join WHERE trip_id = %s)",(trip_id,))
     user_results = cur.fetchall()
 
     return render_template("travel.html",user_results=user_results, trip_results=trip_results ,payment_results=payment_results)
