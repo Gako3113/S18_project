@@ -10,20 +10,26 @@ import os
 import re
 import config as db
 import function
+import dic_sort
 from sqlalchemy import func
 
 app = Flask(__name__)
 
+#データベースとの接続設定
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_pre_ping': True}
+
+#セッションの設定
 app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
-app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_pre_ping': True}
 app.permanent_session_lifetime = timedelta(minutes=3)
 Session(app)
 
+#静的ファイルの設定
 UPLOAD_FOLDER = './static/image/'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+#クリックジャッキング対策
 @app.after_request
 def apply_caching(response):
     response.headers["X-Frame-Options"] = "SAMEORIGIN"
@@ -112,7 +118,7 @@ def travel_register():
             db.session.add(trip_join)
             db.session.commit()
 
-            #ユータベースに旅行に参加するメンバー情報を登録
+            #データベースに旅行に参加するメンバー情報を登録
             for user_id in user_ids:
                 othermem_trip_join = db.Trip_join()
                 othermem_trip_join.trip_id = trip_data.trip_id
@@ -133,8 +139,9 @@ def travel_register():
 
 @app.route("/travel/<int:trip_id>")
 def travel(trip_id):
+    #旅行情報(参加者、日時、旅行名)を取得し、travel.htmlに渡す
     trip_data = db.session.query(db.Trip).filter(db.Trip.trip_id == trip_id).first()
-
+    
     list_instance = function.Return_list()
     payment_user_data = db.session.execute("SELECT * FROM payment JOIN payment_member USING(payment_id) JOIN user USING(user_id) WHERE trip_id = %s;" % (trip_id))
     payment_data = list_instance.list_payment(payment_user_data)
@@ -190,22 +197,17 @@ def liquidation(member_count, trip_id):
     try:
         settle = db.Settle()
         settle.trip_id = trip_id
-
+        
+        #メンバーの支払額を合計し、それを人数で割ることで一人当たり支払うべき金額を割り出す
         my_user_name = (db.session.query(db.User.user_name).filter(db.User.user_id == session["user_id"]).first()).user_name
         trip_member_data = db.session.query(db.Trip_join).filter(db.Trip_join.trip_id == settle.trip_id).all()
         sum_price = (db.session.query(func.sum(db.Payment.price).label("sum_price")).filter(db.Payment.trip_id == settle.trip_id ).first()).sum_price
-
+        
+        
         should_pay_total = int(sum_price)/int(member_count)
         data = {}
         member_count_minus = 0
 
-        def dic_sort(dic):
-            list = sorted(dic.items(), reverse=True, key=lambda x:x[1])
-            dic.clear()
-            dic.update(list)
-            return dic
-
-        #メンバーの支払額を合計し、それを人数で割ることで一人当たり支払うべき金額を割り出す
         for i in range(int(member_count)):
             pay_total = (db.session.query(func.ifnull(func.sum(db.Payment.price), 0).label("pay_total")).filter(db.Payment.trip_id == settle.trip_id, db.Payment.payment_id.in_(db.session.query(db.Payment_member.payment_id).filter(db.Payment_member.user_id == trip_member_data[i].user_id))).first()).pay_total
             data[trip_member_data[i].user_id] = int(pay_total) - int(should_pay_total)
