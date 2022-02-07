@@ -14,3 +14,9 @@ class Return_list:
     for number in range(len(user_id_and_name)):
         user_data.append([user_id_and_name[number].user_id, user_id_and_name[number].user_name])
     return user_data
+
+  def dic_sort(dic):
+      list = sorted(dic.items(), reverse=True, key=lambda x:x[1])
+      dic.clear()
+      dic.update(list)
+      return dic
