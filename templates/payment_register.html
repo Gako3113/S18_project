@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block main %}
-<form action="/payment_register" method="post">
+<form action="{{url_for('payment_register', trip_id=trip_id )}}" method="post">
     <div class="container">
         <div class="m-3 p-3 ">
 
@@ -10,7 +10,7 @@
 
             <div class="col py-5">
                 <label for="exampleFormControlTextarea1" class="form-label　fs-5">場所</label>
-                <input class="form-control" type="text" required aria-label="default input example" name="place" formmethod="post">
+                <input class="form-control" type="text" name="place" formmethod="post">
             </div>
             <div class="col py-5">
                 <label for="exampleFormControlTextarea1" class="form-label　fs-5">金額</label>
@@ -22,9 +22,7 @@
                 <input class="form-control" type="text" required aria-label="default input example" name="user_name" formmethod="post">
             </div>
             <div class="text-center">
-                <form action="/payment_register" metohd="post">
-                    <button class="btn btn-dark mb-3 btn-lg" type="submit" formaction="./payment_register" name=trip_id value="{{ trip_id }}">支払いを登録する</button><!--ボタン追加,支払い画面に行けるようにして、valueとしてtrip_idを送信する-->
-                </form>
+            <button class="btn btn-dark mb-3 btn-lg" type="submit">支払いを登録する</button>
             </div>
         </div>
     </div>

@@ -12,16 +12,14 @@
 
 <div class="container m-0 p-0">
     <div class="row row-3 cols-3">
-      {% for trip_result in trip_results %}
+      {% for trip_element in trip_data %}
       <div class="card" style="width: 8rem;">
         <div class="card-body">
-          <h5 class="card-title">{{ trip_result[1] }}</h5>
-          <form action="/travel" method="post">
-            <button class="btn btn-dark"　type="submit" name="trip_id" value="{{ trip_result[0] }}">見る</button>
-          </form>
+          <h5 class="card-title">{{ trip_element.trip_name }}</h5>
+          <button class="btn btn-dark" onclick="window.location.href='{{ url_for('travel', trip_id=trip_element.trip_id) }}';">見る</button>
         </div>
       </div>
-      {% endfor %} 
+      {% endfor %}
     </div>
 </div>
 
