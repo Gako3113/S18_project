@@ -7,7 +7,7 @@
         <ul class="text-center">
             {% for pay_settle_result in pay_settle_results %}
             <li class="mb-4 pt-3">
-                {{ pay_settle_result[0] }} に {{ pay_settle_result[1] }}円
+                {{ pay_settle_result.user_name }} に {{ pay_settle_result.total_price }}円
             </li>
             {% endfor %}
         </ul>
@@ -15,7 +15,7 @@
         <ul class="text-center">
             {% for get_settle_result in get_settle_results %}
             <li class="mb-4 pt-3">
-                {{ get_settle_result[0] }} から {{ get_settle_result[1] }}円
+                {{ get_settle_result.user_name }} から {{ get_settle_result.total_price }}円
             </li>
             {% endfor %}
         </ul>

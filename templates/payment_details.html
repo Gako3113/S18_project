@@ -3,13 +3,13 @@
 <div class="container position-static mb-3">
     <ul class="list-unstyled text-center">
         <li class="mb-4 pt-3">
-            <h1 class="fs-2"><支払いイベント名><br>{{ payment_results[0][4] }}</h1> <!-- {{trip_name}} -->
+            <h1 class="fs-2"><支払いイベント名><br>{{ payment_results.event_name }}</h1>
         </li>
         <li class="mb-4 pt-3">
-            <h1 class="fs-2"><場所><br>{{ payment_results[0][3] }}</h1> <!-- {{user_id}} -->
+            <h1 class="fs-2"><場所><br>{{ payment_results.place }}</h1>
         </li>
         <li class="mb-4 pt-3">
-            <h1 class="fs-2"><金額><br>{{ payment_results[0][2] }}</h1> <!-- {{start_date}} -->
+            <h1 class="fs-2"><金額><br>{{ payment_results.price }}</h1> 
         </li>
         <li class="mb-4 pt-3">
             <h1 class="fs-2"><支払ったメンバー><br>{{ user_name }}</h1>

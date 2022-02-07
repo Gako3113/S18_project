@@ -1,0 +1,7 @@
+Flask==2.0.2
+Flask-Session==0.4.0
+mysql-connector-python==8.0.27
+navigator-updater==0.2.1
+python-jsonrpc-server==0.3.4
+python-language-server==0.31.7
+Werkzeug==2.0.2

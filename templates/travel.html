@@ -3,13 +3,13 @@
 <div class="container position-static mb-3">
     <ul class="list-unstyled text-center">
         <li class="mb-4 pt-3">
-            <h1 class="fs-2"><旅行名><br>{{ trip_results[0][1] }}</h1> 
+            <h1 class="fs-2"><旅行名><br>{{ trip_results.trip_name }}</h1>
         </li>
         <li class="mb-4 pt-3">
-            <h1 class="fs-2"><開始日><br>{{ trip_results[0][2] }}</h1> 
+            <h1 class="fs-2"><開始日><br>{{ trip_results.start_date }}</h1>
         </li>
         <li class="mb-4 pt-3">
-            <h1 class="fs-2"><終了日><br>{{ trip_results[0][3] }}</h1> 
+            <h1 class="fs-2"><終了日><br>{{ trip_results.end_date }}</h1>
         </li>
         <li class="mb-4 pt-3">
             <h1 class="fs-2"><旅行のメンバー><br>{% for user_result in user_results %}{{ user_result[1]+"  "}}{% endfor %}</h1>
@@ -23,25 +23,19 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ payment_result[5] }}</h5>
                     <p class="card-text">{{ payment_result[3] }}</p>
-                    <form action="/payment_details" method="post">
-                        <button class="btn btn-dark"　type="submit" name="payment_id" value="{{ payment_result[1] }}">見る</button>
-                    </form>
+                    <button class="btn btn-dark" onclick="window.location.href='{{ url_for('payment_details', payment_id=payment_result[1]) }}';">見る</button>
                 </div>
             </div>
             {% endfor %}
         {% endif %}
-        <form action="/payment_register" method="post">
-            <button type="submit" class="btn btn-dark rounded-circle p-0" style="width:2rem;height:2rem;" name="trip_id1" value="{{ trip_results[0][0] }}">+</button>
-        </form>
+        <button class="btn btn-dark rounded-circle p-0" style="width:2rem;height:2rem;" onclick="window.location.href='{{ url_for('payment_register', trip_id=trip_results.trip_id) }}';">+</button>
     </div>
 </div>
 <div class="text-center">
     <h1 class="fs-2"><メンバー清算額比率></h1>
     <canvas id="myPieChart"></canvas>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
-    <form action="/./liquidation" method="post">
-        <button type="submit" class="btn btn-dark btn-lg" name="member_trip_id" value="{{ user_results|length,trip_results[0][0] }}">清算</button>
-    </form>
+    <button class="btn btn-dark btn-lg" onclick = "confirm()">清算</button>
     <script>
         let user_results = {{ user_results |tojson }};
         let payment_results = {{ payment_results |tojson }};
@@ -97,6 +91,12 @@
                 }
             }
             });
+        }
+
+        const confirm = () => {
+        if (window.confirm('清算確定してもよろしいですか(確定後は変更できません)')) {
+          window.location.href="{{ url_for('liquidation', member_count = user_results|length, trip_id=trip_results.trip_id) }}";
+        };
         }
     </script>
 </div>
