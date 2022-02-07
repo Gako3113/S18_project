@@ -10,7 +10,6 @@ import os
 import re
 import config as db
 import function
-import dic_sort
 from sqlalchemy import func
 
 app = Flask(__name__)
